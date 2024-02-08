@@ -10,17 +10,19 @@ This script is designed to scan a folder of choice and move files to target fold
 ## Supported File Types
 
 The script supports the following file types and their respective destination folders:
+- 3D Prints: .3mf, .stl
 - Docs: .doc, .docx, .json, .log, .odt, .pdf, .txt
+- eBooks: .epub, .mobi
 - Excel: .csv, .xls, .xlsm, .xlsx
 - Images: Various image file types
 - PowerBI: .pbids, .pbit, .pbix, .potx, .rdl
 - PowerPoint: .ppt, .pptx
-- Programs: .exe, .msi
+- Programs: .apk, .exe, .msi
 - Python: .ipynb, .py
 - SQL: .sql
 - Videos: Various video file types
 - Web: .htm, .html
-- Zips: .zip
+- Zips: .7z, .deb, .gz, .rar, .tar, .tar.xy, .tar.xz, .tgz, .zip
 
 ## Functions
 

@@ -22,7 +22,9 @@ from pathlib import Path
 
 # Set to each user defaults, adjust as appropriate
 source_dir = Path.home() / "Downloads"
+dest_dir_three_d = Path.home() / "Documents/3dPrints"
 dest_dir_docs = Path.home() / "Documents/Docs"
+dest_dir_ebooks = Path.home() / "Documents/eBooks"
 dest_dir_excel = Path.home() / "Documents/Excel"
 dest_dir_images = Path.home() / "Pictures"
 dest_dir_powerbi = Path.home() / "Documents/PowerBI"
@@ -34,8 +36,14 @@ dest_dir_videos = Path.home() / "Videos"
 dest_dir_web = Path.home() / "Documents/Web"
 dest_dir_zips = Path.home() / "Documents/Zip"
 
+# Supported 3d file types:
+three_d_extensions = [".3mf", ".stl"]
+
 # Supported Docs file types:
 docs_extensions = [".doc", ".docx", ".json", ".log", ".odt", ".pdf", ".txt"]
+
+# Supported ebook file types:
+ebooks_extensions = [".epub", ".mobi"]
 
 # Supported excel file types:
 excel_extensions = [".csv", ".xls", ".xlsm", ".xlsx"]
@@ -86,7 +94,7 @@ powerbi_extensions = [".pbids", ".pbit", ".pbix", ".potx", ".rdl"]
 powerpoint_extensions = [".ppt", ".pptx"]
 
 # Supported program file types:
-program_extensions = [".exe", ".msi"]
+program_extensions = [".AppImage", ".apk", ".exe", ".msi"]
 
 # Supported python file types:
 python_extensions = [".ipynb", ".py"]
@@ -119,7 +127,7 @@ videos_extensions = [
 web_extensions = [".htm", ".html"]
 
 # Supported zips file types:
-zips_extensions = [".zip"]
+zips_extensions = [".7z", ".deb", ".gz", ".rar", ".tar", ".tar.xy", ".tar.xz", ".tgz", ".zip"]
 
 
 def make_unique(destination, name):
@@ -197,7 +205,9 @@ def check_files_in_dir(base_folder, days_threshold):
             name = files.name
             # Defining mappings of extensions
             extension_mappings = {
+                tuple(three_d_extensions): dest_dir_three_d,
                 tuple(docs_extensions): dest_dir_docs,
+                tuple(ebooks_extensions): dest_dir_ebooks,
                 tuple(excel_extensions): dest_dir_excel,
                 tuple(images_extensions): dest_dir_images,
                 tuple(powerbi_extensions): dest_dir_powerbi,
@@ -232,7 +242,6 @@ def check_files_in_dir(base_folder, days_threshold):
                         if difference.days > days_threshold:
                             os.makedirs(destination_folder, exist_ok=True)
                             source_path = Path(files)
-                            print(source_path)
                             move_file(source_path, destination_folder, files.name)
 
 

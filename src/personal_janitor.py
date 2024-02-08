@@ -9,6 +9,9 @@ This looks for commonly used extensions.
 Usage:
     - Adjust the source_dir folder to match your target folder(Downloads or Documents is common)
     - Run the script to automatically organize and archive old files.
+
+Notes:
+    - A log file will be created in a directory one level up
 """
 
 import datetime
@@ -253,10 +256,9 @@ if __name__ == "__main__":
     script_name = full_script_name[: full_script_name.rindex(".")]
     now = datetime.now()  # current date and time
     log_name = f'{script_name}_{now.strftime("%m_%d_%Y")}.log'
-    log_file = os.path.join(
-        Path(os.path.abspath(__file__)).parent.parent, "log", log_name
-    )
-    email_group = "mathew.taylor@redcross.org"
+    log_path = os.path.join(Path(os.path.abspath(__file__)).parent, "log")  # This puts a log directory one level up from this file.
+    os.makedirs(log_path, exist_ok=True)
+    log_file = os.path.join(log_path, log_name)
     logging.basicConfig(
         filename=log_file,
         level=logging.DEBUG,

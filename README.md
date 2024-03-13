@@ -6,6 +6,7 @@ This script is designed to scan a folder of choice and move files to target fold
 
 - Adjust the `source_dir` variable to match your target folder (e.g., Downloads or Documents).
 - Run the script to initiate the automatic organization and archiving of old files.
+- Will create a log file in the log directory.
 
 ## Supported File Types
 
@@ -23,6 +24,8 @@ The script supports the following file types and their respective destination fo
 - Videos: Various video file types
 - Web: .htm, .html
 - Zips: .7z, .deb, .gz, .rar, .tar, .tar.xy, .tar.xz, .tgz, .zip
+
+Feel free to add extensions and file types as you wish, but remember to also add in your Destination directory (_Listed just below the file types_).
 
 ## Functions
 

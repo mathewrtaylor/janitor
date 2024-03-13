@@ -23,117 +23,8 @@ import shutil
 from datetime import datetime, timedelta
 from pathlib import Path
 
-# Set to each user defaults, adjust as appropriate
-source_dir = Path.home() / "Downloads"
-dest_dir_three_d = Path.home() / "Documents/3dPrints"
-dest_dir_docs = Path.home() / "Documents/Docs"
-dest_dir_ebooks = Path.home() / "Documents/eBooks"
-dest_dir_excel = Path.home() / "Documents/Excel"
-dest_dir_images = Path.home() / "Pictures"
-dest_dir_powerbi = Path.home() / "Documents/PowerBI"
-dest_dir_powerpoint = Path.home() / "Documents/Powerpoint"
-dest_dir_programs = Path.home() / "Documents/Programs"
-dest_dir_python = Path.home() / "Documents/Python"
-dest_dir_sql = Path.home() / "Documents/SQL"
-dest_dir_videos = Path.home() / "Videos"
-dest_dir_web = Path.home() / "Documents/Web"
-dest_dir_zips = Path.home() / "Documents/Zip"
 
-# Supported 3d file types:
-three_d_extensions = [".3mf", ".stl"]
-
-# Supported Docs file types:
-docs_extensions = [".doc", ".docx", ".json", ".log", ".odt", ".pdf", ".txt"]
-
-# Supported ebook file types:
-ebooks_extensions = [".epub", ".mobi"]
-
-# Supported excel file types:
-excel_extensions = [".csv", ".xls", ".xlsm", ".xlsx"]
-
-# Supported images file types:
-images_extensions = [
-    ".jpg",
-    ".jpeg",
-    ".jpe",
-    ".jif",
-    ".jfif",
-    ".jfi",
-    ".png",
-    ".gif",
-    ".webp",
-    ".tiff",
-    ".tif",
-    ".psd",
-    ".raw",
-    ".arw",
-    ".cr2",
-    ".nrw",
-    ".k25",
-    ".bmp",
-    ".dib",
-    ".heif",
-    ".heic",
-    ".ind",
-    ".indd",
-    ".indt",
-    ".jp2",
-    ".j2k",
-    ".jpf",
-    ".jpx",
-    ".jpm",
-    ".mj2",
-    ".svg",
-    ".svgz",
-    ".ai",
-    ".eps",
-    ".ico",
-]
-
-# Supported powerbi file types:
-powerbi_extensions = [".pbids", ".pbit", ".pbix", ".potx", ".rdl"]
-
-# Supported powerpoint file types:
-powerpoint_extensions = [".ppt", ".pptx"]
-
-# Supported program file types:
-program_extensions = [".AppImage", ".apk", ".exe", ".msi"]
-
-# Supported python file types:
-python_extensions = [".ipynb", ".py"]
-
-# Supported sql file types:
-sql_extensions = [".sql"]
-
-# Supported video file types:
-videos_extensions = [
-    ".webm",
-    ".mpg",
-    ".mp2",
-    ".mpeg",
-    ".mpe",
-    ".mpv",
-    ".ogg",
-    ".mp4",
-    ".mp4v",
-    ".m4v",
-    ".avi",
-    ".wmv",
-    ".mov",
-    ".qt",
-    ".flv",
-    ".swf",
-    ".avchd",
-]
-
-# Supported web file types:
-web_extensions = [".htm", ".html"]
-
-# Supported zips file types:
-zips_extensions = [".7z", ".deb", ".gz", ".rar", ".tar", ".tar.xy", ".tar.xz", ".tgz", ".zip"]
-
-
-def make_unique(destination, name):
+def make_unique(destination: str, name: str) -> str:
     """
     Ensure unique filenames by appending a numerical suffix if the filename already exists in the destination directory.
 
@@ -161,7 +52,7 @@ def make_unique(destination, name):
     return f"{stem}({counter}){suffix}"
 
 
-def move_file(source, destination, name):
+def move_file(source: str, destination: str, name: str) -> None:
     """
     Moves a file from the source path to the destination path.
 
@@ -189,7 +80,7 @@ def move_file(source, destination, name):
     logging.info(f"Moved: {name} to {str(dest_name)}")
 
 
-def check_files_in_dir(base_folder, days_threshold):
+def check_files_in_dir(base_folder: str, days_threshold: int) -> None:
     """
     Move files in the base_folder to their respective destination folders based on their extensions
     if they are older than the specified days_threshold.
@@ -203,60 +94,49 @@ def check_files_in_dir(base_folder, days_threshold):
     """
     # Get current date
     current_date = datetime.now()
+    
+    # Iterate over files in base_folder
     for files in os.scandir(base_folder):
         if files.is_file():
             name = files.name
-            # Defining mappings of extensions
-            extension_mappings = {
-                tuple(three_d_extensions): dest_dir_three_d,
-                tuple(docs_extensions): dest_dir_docs,
-                tuple(ebooks_extensions): dest_dir_ebooks,
-                tuple(excel_extensions): dest_dir_excel,
-                tuple(images_extensions): dest_dir_images,
-                tuple(powerbi_extensions): dest_dir_powerbi,
-                tuple(powerpoint_extensions): dest_dir_powerpoint,
-                tuple(program_extensions): dest_dir_programs,
-                tuple(python_extensions): dest_dir_python,
-                tuple(sql_extensions): dest_dir_sql,
-                tuple(videos_extensions): dest_dir_videos,
-                tuple(web_extensions): dest_dir_web,
-                tuple(zips_extensions): dest_dir_zips,
-            }
-
-            # Iterate over the mappings
-            for extensions, destination_folder in extension_mappings.items():
+            # Iterate over file type mappings
+            for file_type, extensions in file_type_mapping.items():
                 # Check if the file extension matches any in the current mapping setups
                 for extension in extensions:
                     if name.endswith(extension) or name.endswith(extension.upper()):
-                        # Move the file to the appropriate destination directory if it's old enough
-                        try:  # Accounting for files with no modifications, and only a create time
-                            modification_time = datetime.fromtimestamp(
-                                os.path.getmtime(files)
-                            )
-                            # Calc the difference between current date and threshold
-                            difference = current_date - modification_time
-                        except:
-                            creation_time = datetime.fromtimestamp(
-                                os.path.getctime(files)
-                            )
-                            # Calc the difference between current date and threshold
-                            difference = current_date - creation_time
-                        # Move it if it's over threshold
-                        if difference.days > days_threshold:
-                            os.makedirs(destination_folder, exist_ok=True)
-                            source_path = Path(files)
-                            move_file(source_path, destination_folder, files.name)
+                        # Get the destination folder
+                        destination_folder = dest_dirs.get(file_type)
+                        if destination_folder:
+                            # Move the file to the appropriate destination directory if it's old enough
+                            try:  # Accounting for files with no modifications, and only a create time
+                                modification_time = datetime.fromtimestamp(
+                                    os.path.getmtime(files)
+                                )
+                                # Calculate the difference between current date and modification time
+                                difference = current_date - modification_time
+                            except:
+                                creation_time = datetime.fromtimestamp(
+                                    os.path.getctime(files)
+                                )
+                                # Calculate the difference between current date and creation time
+                                difference = current_date - creation_time
+                            # Move the file if it's over threshold
+                            if difference.days > days_threshold:
+                                os.makedirs(destination_folder, exist_ok=True)
+                                source_path = Path(files)
+                                move_file(source_path, destination_folder, files.name)
+                                break  # No need to continue checking extensions once moved
 
 
 if __name__ == "__main__":
     ## Setting up Audit Log
     ## Used for troubleshooting
-
     full_script_name = os.path.basename(__file__)
     script_name = full_script_name[: full_script_name.rindex(".")]
     now = datetime.now()  # current date and time
     log_name = f'{script_name}_{now.strftime("%m_%d_%Y")}.log'
-    log_path = os.path.join(Path(os.path.abspath(__file__)).parent, "log")  # This puts a log directory one level up from this file.
+    log_path = os.path.join(Path(os.path.abspath(__file__)).parent.parent, "log")  # This puts a log directory one level up from this file. 
+    # Change .parent.parent to .parent to keep in the same directory.
     os.makedirs(log_path, exist_ok=True)
     log_file = os.path.join(log_path, log_name)
     logging.basicConfig(
@@ -267,6 +147,51 @@ if __name__ == "__main__":
     logging.disable(logging.DEBUG)
     # local_machine_running = socket.gethostname()
     days_threshold = 7
+
+    # Add any type of extensions here.
+    file_type_mapping = {
+        "3d": [".3mf", ".stl"],
+        "docs": [".doc", ".docx", ".json", ".log", ".odt", ".pdf", ".txt"],
+        "ebooks": [".epub", ".mobi"],
+        "excel": [".csv", ".xls", ".xlsm", ".xlsx"],
+        "images": [
+            ".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif",
+            ".psd", ".raw", ".arw", ".cr2", ".nrw", ".k25", ".bmp", ".dib", ".heif", ".heic", ".ind",
+            ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai",
+            ".eps", ".ico",
+        ],
+        "powerbi": [".pbids", ".pbit", ".pbix", ".potx", ".rdl", ".rdlc", ".rsix", ".pbitx", 
+                    ".pbix.d", ".pbitm", ".pbix.tmp", ".pbit.tmp", ".pbix.asdatabase", ".pbix.aspkg",
+                    ".pbix.aspac", ".pbix.asrepo", ".pbix.asperational", ".pbix.layout", ".pbiviz", ".rsds"],
+        "powerpoint": [".ppt", ".pptx"],
+        "program": [".AppImage", ".apk", ".exe", ".msi"],
+        "python": [".ipynb", ".py"],
+        "sql": [".sql"],
+        "videos": [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg", ".mp4", ".mp4v", ".m4v",
+                ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"],
+        "web": [".htm", ".html"],
+        "zips": [".7z", ".deb", ".gz", ".rar", ".tar", ".tar.xy", ".tar.xz", ".tgz", ".zip"]
+    }
+
+    # Set to each user defaults, adjust as appropriate
+    dest_dirs = {
+        "three_d": Path.home() / "Documents/3dPrints",
+        "docs": Path.home() / "Documents/Docs",
+        "ebooks": Path.home() / "Documents/eBooks",
+        "excel": Path.home() / "Documents/Excel",
+        "images": Path.home() / "Pictures",
+        "powerbi": Path.home() / "Documents/PowerBI",
+        "powerpoint": Path.home() / "Documents/Powerpoint",
+        "programs": Path.home() / "Documents/Programs",
+        "python": Path.home() / "Documents/Python",
+        "sql": Path.home() / "Documents/SQL",
+        "videos": Path.home() / "Videos",
+        "web": Path.home() / "Documents/Web",
+        "zips": Path.home() / "Documents/Zip"
+    }
+
+    # Directory for other file types
+    source_dir = Path.home() / "Downloads"    
 
     check_files_in_dir(source_dir, days_threshold)
     logging.info(

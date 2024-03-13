@@ -173,7 +173,7 @@ if __name__ == "__main__":
         "zips": [".7z", ".deb", ".gz", ".rar", ".tar", ".tar.xy", ".tar.xz", ".tgz", ".zip"]
     }
 
-    # Set to each user defaults, adjust as appropriate
+    # Destination directories. Set to each user defaults, adjust as appropriate.
     dest_dirs = {
         "three_d": Path.home() / "Documents/3dPrints",
         "docs": Path.home() / "Documents/Docs",
@@ -190,7 +190,7 @@ if __name__ == "__main__":
         "zips": Path.home() / "Documents/Zip"
     }
 
-    # Directory for other file types
+    # Source Directory, where you'd like this to start.
     source_dir = Path.home() / "Downloads"    
 
     check_files_in_dir(source_dir, days_threshold)

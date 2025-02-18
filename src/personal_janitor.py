@@ -8,6 +8,7 @@ This looks for commonly used extensions.
 
 Usage:
     - Adjust the source_dir folder to match your target folder(Downloads or Documents is common)
+    - In the confifg folder, add or change any file associations in the filetype_mapping.yaml file
     - Run the script to automatically organize and archive old files.
 
 Notes:
@@ -20,6 +21,7 @@ import os
 import socket
 import sys
 import shutil
+import yaml
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -148,30 +150,10 @@ if __name__ == "__main__":
     # local_machine_running = socket.gethostname()
     days_threshold = 7
 
-    # Add any type of extensions here.
-    file_type_mapping = {
-        "3d": [".3mf", ".stl"],
-        "docs": [".doc", ".docx", ".json", ".log", ".odt", ".pdf", ".txt"],
-        "ebooks": [".epub", ".mobi"],
-        "excel": [".csv", ".xls", ".xlsm", ".xlsx"],
-        "images": [
-            ".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif",
-            ".psd", ".raw", ".arw", ".cr2", ".nrw", ".k25", ".bmp", ".dib", ".heif", ".heic", ".ind",
-            ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai",
-            ".eps", ".ico",
-        ],
-        "powerbi": [".pbids", ".pbit", ".pbix", ".potx", ".rdl", ".rdlc", ".rsix", ".pbitx", 
-                    ".pbix.d", ".pbitm", ".pbix.tmp", ".pbit.tmp", ".pbix.asdatabase", ".pbix.aspkg",
-                    ".pbix.aspac", ".pbix.asrepo", ".pbix.asperational", ".pbix.layout", ".pbiviz", ".rsds"],
-        "powerpoint": [".ppt", ".pptx"],
-        "program": [".AppImage", ".apk", ".exe", ".msi"],
-        "python": [".ipynb", ".py"],
-        "sql": [".sql"],
-        "videos": [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg", ".mp4", ".mp4v", ".m4v",
-                ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"],
-        "web": [".htm", ".html"],
-        "zips": [".7z", ".deb", ".gz", ".rar", ".tar", ".tar.xy", ".tar.xz", ".tgz", ".zip"]
-    }
+    # Add / Change filetype associations in the filetype_mapping.yaml file in config.
+    config_path = os.path.join(Path(os.path.abspath(__file__)).parent.parent, "config")
+    with open(f'{config_path}\\filetype_mapping.yaml', 'r') as f:
+        file_type_mapping = yaml.load(f, Loader=yaml.SafeLoader)
 
     # Destination directories. Set to each user defaults, adjust as appropriate.
     dest_dirs = {

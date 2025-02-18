@@ -14,7 +14,7 @@ The script supports the following file types and their respective destination fo
 - 3D Prints: .3mf, .stl
 - Docs: .doc, .docx, .json, .log, .odt, .pdf, .txt
 - eBooks: .epub, .mobi
-- Excel: .csv, .xls, .xlsm, .xlsx
+- Excel: .csv, .xls, .xlsm, .xlsx, .parquet
 - Images: Various image file types
 - PowerBI: .pbids, .pbit, .pbix, .potx, .rdl
 - PowerPoint: .ppt, .pptx

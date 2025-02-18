@@ -1,5 +1,5 @@
 ---
-3d:
+three_d:
 - .3mf
 - .stl
 docs:
@@ -15,6 +15,7 @@ ebooks:
 - .mobi
 excel:
 - .csv
+- .parquet
 - .xls
 - .xlsm
 - .xlsx
@@ -78,7 +79,7 @@ powerbi:
 powerpoint:
 - .ppt
 - .pptx
-program:
+programs:
 - .AppImage
 - .apk
 - .exe

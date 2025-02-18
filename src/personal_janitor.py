@@ -18,7 +18,6 @@ Notes:
 import datetime
 import logging
 import os
-import socket
 import sys
 import shutil
 import yaml
@@ -78,8 +77,11 @@ def move_file(source: str, destination: str, name: str) -> None:
     else:
         dest_name = os.path.join(destination, name)
     print(source, dest_name)
-    shutil.move(source, dest_name)
-    logging.info(f"Moved: {name} to {str(dest_name)}")
+    try: 
+        shutil.move(source, dest_name)
+        logging.info(f"Moved: {name} to {str(dest_name)}")
+    except (PermissionError, OSError) as e:
+        logging.error(f"Could not move '{source}': {e}")
 
 
 def check_files_in_dir(base_folder: str, days_threshold: int) -> None:
@@ -108,6 +110,7 @@ def check_files_in_dir(base_folder: str, days_threshold: int) -> None:
                     if name.endswith(extension) or name.endswith(extension.upper()):
                         # Get the destination folder
                         destination_folder = dest_dirs.get(file_type)
+
                         if destination_folder:
                             # Move the file to the appropriate destination directory if it's old enough
                             try:  # Accounting for files with no modifications, and only a create time
@@ -179,3 +182,4 @@ if __name__ == "__main__":
     logging.info(
         "Cleaned up log files older than a week and placed them in the appropriate folder."
     )
+

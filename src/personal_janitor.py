@@ -146,34 +146,17 @@ if __name__ == "__main__":
     log_file = os.path.join(log_path, log_name)
     logging.basicConfig(
         filename=log_file,
-        level=logging.DEBUG,
+        level=logging.INFO,
         format="%(asctime)s - %(levelname)s - %(message)s",
     )
-    logging.disable(logging.DEBUG)
-    # local_machine_running = socket.gethostname()
     days_threshold = 7
 
     # Add / Change filetype associations in the filetype_mapping.yaml file in config.
     config_path = os.path.join(Path(os.path.abspath(__file__)).parent.parent, "config")
-    with open(f'{config_path}\\filetype_mapping.yaml', 'r') as f:
-        file_type_mapping = yaml.load(f, Loader=yaml.SafeLoader)
-
-    # Destination directories. Set to each user defaults, adjust as appropriate.
-    dest_dirs = {
-        "three_d": Path.home() / "Documents/3dPrints",
-        "docs": Path.home() / "Documents/Docs",
-        "ebooks": Path.home() / "Documents/eBooks",
-        "excel": Path.home() / "Documents/Excel",
-        "images": Path.home() / "Pictures",
-        "powerbi": Path.home() / "Documents/PowerBI",
-        "powerpoint": Path.home() / "Documents/Powerpoint",
-        "programs": Path.home() / "Documents/Programs",
-        "python": Path.home() / "Documents/Python",
-        "sql": Path.home() / "Documents/SQL",
-        "videos": Path.home() / "Videos",
-        "web": Path.home() / "Documents/Web",
-        "zips": Path.home() / "Documents/Zip"
-    }
+    with open(os.path.join(config_path, 'filetype_mapping.yaml'), 'r') as f:
+        config_data = yaml.load(f, Loader=yaml.SafeLoader)
+    dest_dirs = {key: Path(path).expanduser() for key, path in config_data['destinations'].items()}
+    file_type_mapping = config_data['file_types']
 
     # Source Directory, where you'd like this to start.
     source_dir = Path.home() / "Downloads"    

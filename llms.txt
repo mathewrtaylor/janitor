@@ -1,0 +1,18 @@
+# llms.txt
+
+## Script Purpose
+
+- `src/personal_janitor.py`: This is the main script that scans a source directory, and based on file extensions defined in `config/filetype_mapping.yaml`, moves files older than a certain number of days to their respective destination folders.
+
+## Key Dependencies
+
+- `PyYAML`: Used to read the `filetype_mapping.yaml` configuration file. This is listed in `requirements.txt`.
+
+## Script Interaction
+
+1. The script is executed from the command line.
+2. It reads the file type mappings and destination paths from `config/filetype_mapping.yaml`.
+3. It scans the `source_dir` (defaulting to `~/Downloads`).
+4. For each file older than `days_threshold`, it determines the destination folder based on its extension.
+5. It moves the file to the corresponding destination folder, creating the folder if it doesn't exist.
+6. It logs its actions to a file in the `log` directory.

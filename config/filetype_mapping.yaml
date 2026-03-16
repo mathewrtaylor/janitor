@@ -1,4 +1,5 @@
 destinations:
+    audio: ~/Music
     three_d: ~/Documents/3dPrints
     docs: ~/Documents/Docs
     ebooks: ~/Documents/eBooks
@@ -13,6 +14,16 @@ destinations:
     web: ~/Documents/Web
     zips: ~/Documents/Zip
 file_types:
+    audio:
+    - .aac
+    - .aiff
+    - .flac
+    - .m4a
+    - .mp3
+    - .oga
+    - .opus
+    - .wav
+    - .wma
     three_d:
     - .3mf
     - .stl
@@ -78,16 +89,7 @@ file_types:
     - .rdlc
     - .rsix
     - .pbitx
-    - .pbix.d
     - .pbitm
-    - .pbix.tmp
-    - .pbit.tmp
-    - .pbix.asdatabase
-    - .pbix.aspkg
-    - .pbix.aspac
-    - .pbix.asrepo
-    - .pbix.asperational
-    - .pbix.layout
     - .pbiviz
     - .rsds
     powerpoint:
@@ -110,10 +112,10 @@ file_types:
     - .mpeg
     - .mpe
     - .mpv
-    - .ogg
     - .mp4
     - .mp4v
     - .m4v
+    - .mkv
     - .avi
     - .wmv
     - .mov
@@ -121,6 +123,9 @@ file_types:
     - .flv
     - .swf
     - .avchd
+    - .mts
+    - .m2ts
+    - .ts
     web:
     - .htm
     - .html
@@ -130,7 +135,6 @@ file_types:
     - .gz
     - .rar
     - .tar
-    - .tar.xy
     - .tar.xz
     - .tgz
     - .zip

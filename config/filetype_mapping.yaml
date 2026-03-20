@@ -25,19 +25,55 @@ file_types:
     - .wav
     - .wma
     three_d:
+    - .3ds
+    - .3dm
     - .3mf
+    - .amf
+    - .fbx
+    - .obj
+    - .scad
+    - .step
     - .stl
+    - .x3d
     docs:
     - .doc
     - .docx
     - .json
     - .log
+    - .md
+    - .msg
     - .odt
     - .pdf
     - .txt
+    - .wpd
+    - .rtf
+    - .txt
+    - .xml
+    - .yml
+    - .yaml
     ebooks:
+    - .azw
+    - .azw3
+    - .azw4
+    - .cb7
+    - .cbr
+    - .cbt
+    - .cbz
+    - .ceb
+    - .djvu
     - .epub
+    - .fb2
+    - .ibooks
+    - .kf8
+    - .kfx
+    - .lit
+    - .lrf
+    - .lrx
     - .mobi
+    - .opf
+    - .pdb
+    - .prc
+    - .xeb
     excel:
     - .csv
     - .parquet
@@ -98,7 +134,12 @@ file_types:
     programs:
     - .AppImage
     - .apk
+    - .bat
+    - .bin
+    - .cmd
+    - .com
     - .exe
+    - .flatpak
     - .msi
     python:
     - .ipynb
@@ -133,7 +174,12 @@ file_types:
     - .7z
     - .deb
     - .gz
+    - .jar
+    - .md5
+    - .msi
+    - .pkg
     - .rar
+    - .rpm
     - .tar
     - .tar.xz
     - .tgz
